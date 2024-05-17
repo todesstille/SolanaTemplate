@@ -1,7 +1,11 @@
 const { spawn } = require('child_process');
 
-async function deployProgram(pathToProgram) {
-    const deploy = spawn('solana', ['program', 'deploy', pathToProgram ]);
+function nameToPath(name) {
+    return "./programs/" + name + "/target/deploy/" + name + ".so";
+}
+
+async function deployProgram(name) {
+    const deploy = spawn('solana', ['program', 'deploy', nameToPath(name) ]);
     
     let data = await new Promise( (resolve, reject) => {
         deploy.stdout.on('data', (data) => resolve(data));
